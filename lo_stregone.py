@@ -1,27 +1,33 @@
-#%%
 import pandas as pd
 import functions as fc
 
 # --- INPUT ---
-latitudine = 41.9028
-longitudine = 12.4964
-potenza_picco = 3.0 # kWp
+latitude = 41.9028
+longitude = 12.4964
+peak_power = 3.0 # kWp
 
-# --- ESTRAZIONE DATI ---
-df = fc.estrai_dati_orari(lat=latitudine, lon=longitudine, peakpower=potenza_picco)
+# --- DATA EXTRACTION ---
+# 1. Hourly Data (for plots and irradiance)
+df_hourly = fc.get_hourly_data(lat=latitude, lon=longitude, peakpower=peak_power)
 
-# --- CALCOLI TOTALI ---
-df['mese'] = df['time'].dt.month
+# 2. Solar Productivity Data (New API call)
+productivity_data = fc.get_solar_productivity(lat=latitude, lon=longitude, peakpower=peak_power)
 
-# P è in Watt, dividiamo per 1000 per avere kWh. G(i) è in W/m2.
-produzione_mensile = df.groupby('mese')['P'].sum() / 1000 
-irradianza_mensile = df.groupby('mese')['G(i)'].sum() / 1000 
-produzione_annua = produzione_mensile.sum()
+# --- CALCULATIONS ---
+df_hourly['month'] = df_hourly['time'].dt.month
+monthly_irradiance = df_hourly.groupby('month')['G(i)'].sum() / 1000 # kWh/m2
 
-print(f"--- RISULTATI ---")
-print(f"Produzione Totale Annua: {produzione_annua:.2f} kWh\n")
-print("Produzione Mensile (kWh):")
-print(produzione_mensile.round(2))
+# Parse the JSON response from PVcalc for productivity
+annual_production = productivity_data['totals']['fixed']['E_y']
+monthly_production = {item['month']: item['E_m'] for item in productivity_data['monthly']['fixed']}
 
-# --- GRAFICI ---
-fc.plotting(df, irradianza_mensile, mese_scelto=6, giorno_scelto=23)
+# --- RESULTS ---
+print("--- RESULTS ---")
+print(f"Total Annual Production: {annual_production:.2f} kWh\n")
+
+print("Monthly Production (kWh):")
+for month, production in monthly_production.items():
+    print(f"Month {month:02d}: {production:.2f}")
+
+# --- PLOTTING ---
+fc.plot_data(df_hourly, monthly_irradiance, selected_month=6, selected_day=23)
