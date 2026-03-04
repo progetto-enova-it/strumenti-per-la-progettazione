@@ -30,4 +30,4 @@ for month, production in monthly_production.items():
     print(f"Month {month:02d}: {production:.2f}")
 
 # --- PLOTTING ---
-fc.plot_data(df_hourly, monthly_irradiance, selected_month=6, selected_day=23)
+fc.plot_data(df_hourly, monthly_irradiance, monthly_production, selected_month=6, selected_day=23)
