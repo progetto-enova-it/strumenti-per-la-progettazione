@@ -1,19 +1,19 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.lines import Line2D  # Rimossa la riga duplicata
+from matplotlib.lines import Line2D  
 
 class Company:
-    registry = []  # Rimossa la dichiarazione duplicata
+    registry = []  
 
     def __init__(self, name, technologies):
         self.name = name
         self.technologies = technologies
-        Company.registry.append(self)  # Rimossa la chiamata duplicata
+        Company.registry.append(self)  
 
 # 1. Definizione Offerte di Produzione (Supply)
 Company("Company 1", [
     {"type": "Oil", "capacity_mw": 100, "bid_price": 200.0, "availability": 1},
-    {"type": "Gas", "capacity_mw": 250, "bid_price": 60, "availability": 1},  # Rimossa la riga Gas duplicata
+    {"type": "Gas", "capacity_mw": 250, "bid_price": 60, "availability": 1},  
 ])
 
 Company("Company 2", [
@@ -54,8 +54,7 @@ while s_idx < len(supply_bids) and d_idx < len(demand_bids):
     if d["price"] >= s["bid_price"]:
         cleared = min(s_avail, d_avail)
         market_quantity += cleared
-        market_price = s["bid_price"]  # Il prezzo è fissato dall'ultimo blocco di offerta accettato
-
+        market_price = s["bid_price"]  
         s_used += cleared
         d_used += cleared
 

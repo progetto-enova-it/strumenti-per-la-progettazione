@@ -80,11 +80,6 @@ def plot_data(df, monthly_irradiance, monthly_production, selected_month=6, sele
     plt.show()
 
     #ECONOMIC ANALYSIS
-
-
-
-
-
 def capacity_factor(annual_energy_kwh: float, rated_power_kw: float) -> float:
     """Compute capacity factor from annual energy and installed power.
 
