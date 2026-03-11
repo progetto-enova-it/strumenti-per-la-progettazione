@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy_financial as npf
+from typing import List, Optional
 
 
 def get_hourly_data(lat, lon, peakpower, loss=14, tilt=None, azimuth=None, tech=None, mountingplace=None):
