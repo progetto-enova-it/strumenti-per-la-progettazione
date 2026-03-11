@@ -1,6 +1,9 @@
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+import numpy_financial as npf
+
 
 def get_hourly_data(lat, lon, peakpower, loss=14, tilt=None, azimuth=None, tech=None, mountingplace=None):
     url = "https://re.jrc.ec.europa.eu/api/v5_2/seriescalc"
